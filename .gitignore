@@ -1,0 +1,16 @@
+# 临时/日志文件
+launcher-log.txt
+_check.js
+*.log
+
+# 系统文件
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# 快捷方式
+*.lnk
+
+# 编辑器
+.vscode/
+.idea/

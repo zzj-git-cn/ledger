@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal enabledelayedexpansion
 cd /d "%~dp0"
 title 记账本 - 推送到 GitHub
 
@@ -32,17 +32,24 @@ if errorlevel 1 (
 
 rem [4/5] 远程仓库地址
 set "REPO=%~1"
-if "%REPO%"=="" (
+set "CUR="
+for /f "delims=" %%i in ('git remote get-url origin 2^>nul') do set "CUR=%%i"
+if not "%REPO%"=="" goto setremote
+if defined CUR (
+  echo [4/5] 当前远程仓库: !CUR!
+  set /p "REPO=直接回车就用它,或粘贴新地址: "
+  if not defined REPO set "REPO=!CUR!"
+) else (
   echo.
   echo 请粘贴你的仓库地址,例:https://github.com/zzj-git-cn/ledger.git
   set /p "REPO=仓库地址: "
 )
+
+:setremote
 if not "%REPO%"=="" (
   git remote remove origin >nul 2>&1
   git remote add origin "%REPO%"
-  echo [4/5] 已设置远程仓库
-) else (
-  echo [4/5] 没填地址,使用已有 origin
+  echo     已设置远程仓库
 )
 git branch -M main >nul 2>&1
 
@@ -56,16 +63,21 @@ if errorlevel 1 (
   echo.
   echo --------------------------------------------
   echo 推送失败,常见原因:
-  echo   1. GitHub 上还没建仓库 - 先去网页建一个空仓库,别勾选 README
-  echo   2. 网络问题 - 把 Watt Toolkit 打开再试
-  echo   3. 证书问题 - 在 cmd 里执行下面这行,然后重开本脚本:
-  echo        git config --global http.sslBackend openssl
+  echo   1. 仓库还没建 - 先去 https://github.com/new 建一个空的公开仓库
+  echo   2. 加速器问题 - Watt Toolkit 会替换 GitHub 证书;
+  echo      若报证书或 schannel 错误,先在 Watt Toolkit 里停止加速再重跑
+  echo   3. 实在不行临时跳过证书校验,在 cmd 里执行:
+  echo        git config --global http.sslVerify false
+  echo      推送成功后再改回:
+  echo        git config --global http.sslVerify true
   echo --------------------------------------------
 ) else (
   echo.
-  echo 推送成功!
-  echo 仓库地址: %REPO%
-  echo 想去网页看效果:Settings -^> Pages -^> Source 选 main -^> Save
+  echo 推送成功!仓库地址: %REPO%
+  echo.
+  echo 想在网页上直接打开:
+  echo   Settings -^> Pages -^> Source 选 main -^> Save
+  echo   一分钟后访问 https://你的用户名.github.io/仓库名/
 )
 echo.
 pause

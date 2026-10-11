@@ -566,8 +566,8 @@ var CATS = {
     { id:'other',   name:'其他', g:'🧾', color:'#a78bfa' }
   ],
   income: [
-    { id:'workstudy', name:'勤工助学', g:'🧹', color:'#34d399', hourly:true },
-    { id:'campusjob', name:'校内兼职', g:'🏫', color:'#22d3ee', hourly:true },
+    { id:'workstudy', name:'工资', g:'🧹', color:'#34d399', hourly:true },
+    { id:'campusjob', name:'兼职', g:'🏫', color:'#22d3ee', hourly:true },
     { id:'finance',   name:'理财',     g:'📈', color:'#60a5fa' },
     { id:'other',     name:'其他',     g:'🎁', color:'#c084fc' }
   ]
@@ -1668,7 +1668,7 @@ function buildEntry(type){
   var hourly = !!cat1.hourly;
   var userPickedMode = (amountMode === 'hour');       /* 之前手动切过就沿用手动选择 */
   if (editing && editing.hours > 0){ amountMode = 'hour'; userPickedMode = true; }   /* 按工时记的,编辑时回到按小时 */
-  /* 首次打开:时薪类收入(勤工助学/校内兼职)默认就落在“按小时算” */
+  /* 首次打开:时薪类收入(工资/兼职)默认就落在“按小时算” */
   if (!editing && hourly && !userPickedMode && !hasAnyEntry(type)){ amountMode = 'hour'; }
   var fAmt = el('div','field');
   var amtLabel = el('label', null, '金额(元)');
@@ -2989,7 +2989,7 @@ function openHelp(){
       '金额在上、分类在下,顺序随便颠倒着填无所谓,填完点保存。<br>' +
       '餐饮 / 快递 / 交通 选完一级分类会再出现小类,选到“其他”时再手写具体是什么。<br>' +
       '分类选“<b>其他</b>”时必须写用途(例如红包);写过的用途会记下最近 5 个,下次点一下就行,不用重新打字。<br>' +
-      '收入里的 <b>勤工助学 / 校内兼职</b> 可以切到「按小时算」:填小时数 × 时薪(' + money(db.hourlyRate || DEFAULT_RATE) + ')自动出金额,时薪框里能随时改。' +
+      '收入里的 <b>工资 / 兼职</b> 可以切到「按小时算」:填小时数 × 时薪(' + money(db.hourlyRate || DEFAULT_RATE) + ')自动出金额,时薪框里能随时改。' +
       '</div>' +
       '<p style="margin:12px 0 6px"><b>预算</b></p>' +
       '<div style="color:#9aa3b2;font-size:12.5px">首页「本月支出预算」点一下就能填金额;之后会显示进度条、剩余额度和日均可用,用到 70% 变黄、超支变红。</div>' +

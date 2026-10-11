@@ -338,7 +338,7 @@ function eq(name, actual, expect) { check(name + '  [期望 ' + JSON.stringify(e
   const outer = segs.filter(s => !s.__attrs['data-type']);
   const inner = segs.filter(s => !!s.__attrs['data-type']);
   eq('外环 2 段(支出/收入)', outer.length, 2);
-  eq('内环段数 = 有数据的一级分类数(餐饮/快递/交通/勤工助学/校内兼职)', inner.length, 5);
+  eq('内环段数 = 有数据的一级分类数(餐饮/快递/交通/工资/兼职)', inner.length, 5);
   const fills = inner.map(s => s.__attrs.fill);
   check('内环每段颜色不同', new Set(fills).size === fills.length, fills);
   check('支出系颜色偏红(和深红主题同色系)',
@@ -422,7 +422,7 @@ function eq(name, actual, expect) { check(name + '  [期望 ' + JSON.stringify(e
     pop && pop.innerText.replace(/\s+/g,' '));
 
   pop = hoverCat('workstudy');
-  check('没有下一级的"勤工助学"浮层给出总额', pop && /勤工助学/.test(pop.innerText) && /80\.00/.test(pop.innerText),
+  check('没有下一级的"工资"浮层给出总额', pop && /工资/.test(pop.innerText) && /80\.00/.test(pop.innerText),
     pop && pop.innerText.replace(/\s+/g,' '));
 
   /* ---------- D. 点下一级 → 跳转筛选 ---------- */
@@ -453,8 +453,8 @@ function eq(name, actual, expect) { check(name + '  [期望 ' + JSON.stringify(e
   /* 点下方「分类排行」的某一行(先切到收入) */
   const catSeg = $$('#view .seg').find(s => s.children.some(b => b.innerText === '收入') && s.children.some(b => b.innerText === '支出'));
   catSeg.children.find(b => b.innerText === '收入').click(); await tick();
-  const incBar = $$('#view .bar-row').find(b => b.innerText.indexOf('校内兼职') > -1);
-  check('收入排行里有校内兼职', !!incBar, $$('#view .bar-row').map(b => b.innerText.replace(/\s+/g,' ')));
+  const incBar = $$('#view .bar-row').find(b => b.innerText.indexOf('兼职') > -1);
+  check('收入排行里有兼职', !!incBar, $$('#view .bar-row').map(b => b.innerText.replace(/\s+/g,' ')));
   incBar.click(); await tick();
   eq('点分类排行的一行 → 筛选到该类', A.UI.cat, 'campusjob');
   eq('类型=收入', A.UI.type, 'income');

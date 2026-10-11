@@ -336,7 +336,7 @@ function seedData() {
   check('分类下拉包含一级与二级与三级', catCount > 20, catCount);
   const optTexts = $$('.bf-row select')[0].options.map(o => o.innerText);
   check('下拉里有【支出】餐饮 › 午餐', optTexts.some(t => t.indexOf('餐饮 › 午餐') > -1), optTexts.slice(0, 4));
-  check('下拉里有【收入】勤工助学', optTexts.some(t => t.indexOf('勤工助学') > -1), true);
+  check('下拉里有【收入】工资', optTexts.some(t => t.indexOf('工资') > -1), true);
   check('下拉里有三级 其他 › 其他(可手写)', optTexts.some(t => t.indexOf('小吃') > -1), true);
 
   /* 打开补录时应当已写入自动备份 */
@@ -391,7 +391,7 @@ function seedData() {
   eq('补录1 日期', A.ymd(new Date(added[0].ts)), '2026-10-06');
   eq('补录1 类型支出', added[0].type, 'expense');
   eq('补录2 交通地铁 4 元', added[1].cat + '|' + added[1].amount, 'traffic.metro|4');
-  eq('补录3 收入 校内兼职 60', added[2].type + '|' + added[2].cat + '|' + added[2].amount, 'income|campusjob|60');
+  eq('补录3 收入 兼职 60', added[2].type + '|' + added[2].cat + '|' + added[2].amount, 'income|campusjob|60');
   eq('补录记录带备注', added[0].note, '包子豆浆');
   eq('补录记录 method 默认微信', added[0].method, '微信');
 
